@@ -16,7 +16,7 @@ This plugin works with Android applications and Android libraries, everything th
 The smallest example is the following.
 ```groovy
 plugins {
-   id 'com.appsingularity.android-app-version'
+   id 'com.appsingularity.android-app-version' version '1.0.0'
    id 'com.android.application'
 }
 
