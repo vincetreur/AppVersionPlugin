@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Appversionplugin : Manage the version of your Android App, Library and APK&#39;s.">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Appversionplugin</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/vincetreur/AppVersionPlugin">View on GitHub</a>
+
+          <h1 id="project_title">Appversionplugin</h1>
+          <h2 id="project_tagline">Manage the version of your Android App, Library and APK&#39;s.</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/vincetreur/AppVersionPlugin/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/vincetreur/AppVersionPlugin/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a id="android-app-version" class="anchor" href="#android-app-version" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Android App Version</h1>
+
+<p>Manage the version of your Android App, Library and APK's.</p>
+
+<p>Nobody likes to calculate new version codes. We all have written gradle tasks to do this calculation for us and then copied those tasks every time we start a new project.</p>
+
+<p>Now you can let the <code>versionCode</code> and <code>versionName</code> be generated for you and have your APK name match that version.</p>
+
+<p>Just specify the basic version information in your build file and you are done.</p>
+
+<p>This plugin works with Android applications and Android libraries, everything that is described here also works for library projects/AAR files.</p>
+
+<h2>
+<a id="a-simple-example" class="anchor" href="#a-simple-example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>A simple example</h2>
+
+<p>The smallest example is the following.</p>
+
+<div class="highlight highlight-source-groovy"><pre>plugins {
+   id <span class="pl-s"><span class="pl-pds">'</span>com.appsingularity.android-app-version<span class="pl-pds">'</span></span>
+   id <span class="pl-s"><span class="pl-pds">'</span>com.android.application<span class="pl-pds">'</span></span>
+}
+
+appVersion {
+   majorVersion <span class="pl-c1">1</span>
+   minorVersion <span class="pl-c1">1</span>
+   patchVersion <span class="pl-c1">3</span>
+   isSnapshot <span class="pl-c1">false</span>
+}
+
+android {
+   buildToolsVersion <span class="pl-s"><span class="pl-pds">"</span>23.0.2<span class="pl-pds">"</span></span>
+   compileSdkVersion <span class="pl-c1">23</span>
+   defaultConfig {
+      applicationId <span class="pl-s"><span class="pl-pds">"</span>foo.bar<span class="pl-pds">"</span></span>
+      minSdkVersion <span class="pl-c1">8</span>
+      targetSdkVersion <span class="pl-c1">23</span>
+   }
+}</pre></div>
+
+<p>In this example a <code>versionCode</code> with the value <code>1.2.3</code> and a <code>versionName</code> with the value <code>"1.2.3"</code> will
+be inserted into <code>android.defaultConfig</code> and your <code>AndroidManifest.xml</code>.</p>
+
+<blockquote>
+<p>If a <code>android.defaultConfig.versionCode</code> and/or <code>android.defaultConfig.versionName</code> is found then the plugin will use those values.</p>
+
+<p>Notice we didn't set the versionCode and versionName in the manifest?</p>
+</blockquote>
+
+<p>Also your APK will have the version in the name.
+In this example your debug APK will be called <code>app-debug-1.2.3.apk</code>.</p>
+
+<blockquote>
+<p>If you do specify the versionCode and versionName in your gradle build file, then the plugin will use those.</p>
+</blockquote>
+
+<h2>
+<a id="order-matters" class="anchor" href="#order-matters" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Order matters</h2>
+
+<p>You <em>have</em> to apply this plugin before you apply the android application or library plugin!</p>
+
+<h2>
+<a id="build-numbers" class="anchor" href="#build-numbers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Build numbers</h2>
+
+<p>If you want to keep track of the different builds for the same version then you would use the <code>buildNumber</code> to differentiate between builds.</p>
+
+<p>The next build file would be equal to specifying <code>versionCode 10203</code> and <code>versionName "1.2.3.4"</code>, your APK name will be <code>app-debug-1.2.3.4.APK</code>.</p>
+
+<div class="highlight highlight-source-groovy"><pre><span class="pl-c">// ...</span>
+appVersion {
+   majorVersion <span class="pl-c1">1</span>
+   minorVersion <span class="pl-c1">1</span>
+   patchVersion <span class="pl-c1">3</span>
+   buildNumber <span class="pl-c1">4</span>
+   isSnapshot <span class="pl-c1">false</span>
+}
+<span class="pl-c">// ...</span></pre></div>
+
+<h2>
+<a id="snapshots" class="anchor" href="#snapshots" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Snapshots</h2>
+
+<p>If you want to have your versions flagged as snapshots, just add <code>isSnapshot true</code> to your build file. The version name and your APK will have <code>-SNAPSHOT</code> added to the name.</p>
+
+<div class="highlight highlight-source-groovy"><pre><span class="pl-c">// ...</span>
+appVersion {
+   majorVersion <span class="pl-c1">1</span>
+   minorVersion <span class="pl-c1">1</span>
+   patchVersion <span class="pl-c1">3</span>
+   isSnapshot <span class="pl-c1">true</span>
+}
+<span class="pl-c">// ...</span></pre></div>
+
+<blockquote>
+<p>Snapshots are enabled by default.</p>
+</blockquote>
+
+<h2>
+<a id="release-candidates" class="anchor" href="#release-candidates" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Release Candidates</h2>
+
+<p>If you want to have a version flagged as a release candidate, just add <code>releaseCandidate 1</code> to your build file. The version name and your APK will have <code>-RC1</code> added to the name.
+This also works for 2, 3, 4, etc etc.</p>
+
+<div class="highlight highlight-source-groovy"><pre><span class="pl-c">// ...</span>
+appVersion {
+   majorVersion <span class="pl-c1">1</span>
+   minorVersion <span class="pl-c1">1</span>
+   patchVersion <span class="pl-c1">3</span>
+   releaseCandidate <span class="pl-c1">4</span>
+}
+<span class="pl-c">// ...</span></pre></div>
+
+<blockquote>
+<p>If you use <code>releaseCandidate</code> then <code>isSnapshot</code> will be ignored.</p>
+</blockquote>
+
+<h2>
+<a id="build-types-product-flavors-and-flavor-dimensions" class="anchor" href="#build-types-product-flavors-and-flavor-dimensions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Build types, product flavors and flavor dimensions</h2>
+
+<p>This plugin is aware of build types, product flavors and flavor dimensions. It will not mess up renaming your APK when you use those.</p>
+
+<h2>
+<a id="renaming-the-apk" class="anchor" href="#renaming-the-apk" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Renaming the APK</h2>
+
+<p>This plugins creates a copy of your APK and adds the version name to it.</p>
+
+<blockquote>
+<p>Your APK will not be renamed but copied, so any existing gradle tasks (including yours) will keep working.
+Renaming is enabled by default.</p>
+</blockquote>
+
+<p>If you want to disable this, add <code>renameAPK false</code> to your build file</p>
+
+<div class="highlight highlight-source-groovy"><pre><span class="pl-c">// ...</span>
+appVersion {
+   majorVersion <span class="pl-c1">1</span>
+   minorVersion <span class="pl-c1">1</span>
+   patchVersion <span class="pl-c1">3</span>
+   renameAPK <span class="pl-c1">false</span>
+}
+<span class="pl-c">// ...</span></pre></div>
+
+<blockquote>
+<p>For libraries the renameAPK attribute is <strong>not</strong> renameAAR but still renameAPK.</p>
+</blockquote>
+
+<h2>
+<a id="changing-the-standard-behavior" class="anchor" href="#changing-the-standard-behavior" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Changing the standard behavior</h2>
+
+<h3>
+<a id="changing-the-version-name" class="anchor" href="#changing-the-version-name" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Changing the version name</h3>
+
+<p>You have complete control over the format of the computed versionName. You can use <code>customVersionName</code> to replace the version name with any value you would like to use.
+So you could use <code>customVersionName "awesome"</code> to end up with something like <code>app-debug-awesome.apk</code>.</p>
+
+<div class="highlight highlight-source-groovy"><pre><span class="pl-c">// ...</span>
+appVersion {
+   majorVersion <span class="pl-c1">1</span>
+   minorVersion <span class="pl-c1">1</span>
+   patchVersion <span class="pl-c1">3</span>
+   customVersionName <span class="pl-s"><span class="pl-pds">'</span>awesome<span class="pl-pds">'</span></span>
+}
+<span class="pl-c">// ...</span></pre></div>
+
+<blockquote>
+<p>Only the snapshot flag/release candidate will be added to the customVersionName.</p>
+</blockquote>
+
+<p>More on this in the Advanced usage section.</p>
+
+<h3>
+<a id="keep-using-defaultconfig" class="anchor" href="#keep-using-defaultconfig" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Keep using defaultConfig</h3>
+
+<p>Whenever the plugin finds the normal <code>versionCode</code> and/or <code>versionName</code> in <code>android.defaultConfig it</code> will use those values. By doing this you are effectively disabling the plugin, except for renaming the APK.</p>
+
+<h3>
+<a id="overriding-the-build-file" class="anchor" href="#overriding-the-build-file" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Overriding the build file</h3>
+
+<p>All the options can also be specified and overridden via the command line, like <code>-PappVersion.isSnapshot=false</code>.</p>
+
+<blockquote>
+<p>You can use the Jenkins BUILD_NUMBER to create incremental build numbers with <code>-PappVersion.buildNumber=$BUILD_NUMBER</code></p>
+</blockquote>
+
+<h2>
+<a id="advanced-usage" class="anchor" href="#advanced-usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Advanced usage</h2>
+
+<h3>
+<a id="closures" class="anchor" href="#closures" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Closures</h3>
+
+<p>Sometimes just specifying a static value is not enough. Luckily you can also use closures.</p>
+
+<p>Within a closure you can basically do anything you want as long a you return a string that the plugin can work with.</p>
+
+<blockquote>
+<p>Remember that performing long running tasks in a closure will slow down your build.</p>
+</blockquote>
+
+<p>If you wrote a function that returns a GIT branch name then you could use it as follows.</p>
+
+<div class="highlight highlight-source-groovy"><pre><span class="pl-c">// ...</span>
+appVersion {
+   majorVersion <span class="pl-c1">1</span>
+   minorVersion <span class="pl-c1">1</span>
+   patchVersion <span class="pl-c1">3</span>
+   isSnapshot <span class="pl-c1">false</span>
+   customVersionName { <span class="pl-s"><span class="pl-pds">'</span>${version}-${functionThatReturnsBranchName()}<span class="pl-pds">'</span></span> }
+}
+<span class="pl-c">// ...</span></pre></div>
+
+<p>The version name will then be <code>1.2.3-develop</code>. The <code>${version}</code> will be explained in the Variable substitution section.</p>
+
+<blockquote>
+<p>Use single quotes or gradle will try to do the substitution before the plugin can.</p>
+</blockquote>
+
+<h3>
+<a id="variable-substitution" class="anchor" href="#variable-substitution" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Variable substitution</h3>
+
+<p>Within closures you can use variables supplied by this plugin. See the All options section for an almost complete list.</p>
+
+<p>One variable that is not mentioned there is <code>version</code>, this is a read only variable that holds the version name.
+This name is computed based on the <code>majorVersion</code>, <code>minorVersion</code>, <code>patchVersion</code> and <code>buildNumber</code>.</p>
+
+<h2>
+<a id="all-options" class="anchor" href="#all-options" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>All options</h2>
+
+<p>All these options can be used via the command line (prefix with <code>appVersion.</code>) or in closures.</p>
+
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Description</th>
+<th align="center">Type</th>
+<th align="center">Closure?</th>
+<th align="center">Overridden by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>majorVersion</code></td>
+<td>The a part of an a.b.c version.</td>
+<td align="center">Numeric</td>
+<td align="center">No</td>
+<td align="center"><code>customVersionName</code></td>
+</tr>
+<tr>
+<td><code>minorVersion</code></td>
+<td>The b part of an a.b.c version.</td>
+<td align="center">Numeric</td>
+<td align="center">No</td>
+<td align="center"><code>customVersionName</code></td>
+</tr>
+<tr>
+<td><code>patchVersion</code></td>
+<td>The c part of an a.b.c version.</td>
+<td align="center">Numeric</td>
+<td align="center">No</td>
+<td align="center"><code>customVersionName</code></td>
+</tr>
+<tr>
+<td><code>buildNumber</code></td>
+<td>Adds the build number to the version name.</td>
+<td align="center">Numeric</td>
+<td align="center">No</td>
+<td align="center"><code>customVersionName</code></td>
+</tr>
+<tr>
+<td><code>isSnapshot</code></td>
+<td>Adds <code>-SNAPSHOT</code>, defaults to true.</td>
+<td align="center">Boolean</td>
+<td align="center">No</td>
+<td align="center">None</td>
+</tr>
+<tr>
+<td><code>releaseCandidate</code></td>
+<td>Adds <code>-RCx</code>.</td>
+<td align="center">Numeric</td>
+<td align="center">No</td>
+<td align="center">None</td>
+</tr>
+<tr>
+<td><code>renameAPK</code></td>
+<td>Should the APK be renamed? Defaults to true.</td>
+<td align="center">Boolean</td>
+<td align="center">No</td>
+<td align="center">None</td>
+</tr>
+<tr>
+<td><code>customVersionName</code></td>
+<td>Replaces the a.b.c.d part of the version name.</td>
+<td align="center">String</td>
+<td align="center">Yes</td>
+<td align="center">None</td>
+</tr>
+</tbody>
+</table>
+
+<blockquote>
+<p>The basic version name structure is as follows.
+<code>${majorVersion}.${minorVersion}.${patchVersion}.${buildNumber}-SNAPSHOT</code>
+ or <code>${majorVersion}.${minorVersion}.${patchVersion}.${buildNumber}-RC${releaseCandidate}</code></p>
+
+<p>Or <code>${customVersionName}-SNAPSHOT</code> / <code>${customVersionName}-RC${releaseCandidate}</code></p>
+</blockquote>
+
+<h1>
+<a id="version-history" class="anchor" href="#version-history" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Version history</h1>
+
+<p>1.0.0 - Initial release</p>
+
+<h1>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>License</h1>
+
+<pre><code>Copyright 2016 Vince M Treur
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+</code></pre>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Appversionplugin maintained by <a href="https://github.com/vincetreur">vincetreur</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
