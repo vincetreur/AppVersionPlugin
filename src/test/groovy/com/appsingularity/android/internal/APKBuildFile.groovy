@@ -26,7 +26,7 @@ public class APKBuildFile {
     public static String populate(String appVersion, String defaultConfig, String extras) {
         '''
             plugins {
-                id 'android-app-version'
+                id 'com.appsingularity.android-app-version'
                 id 'com.android.application'
             }''' + appVersion + '''
             android {

@@ -51,14 +51,14 @@ version = "1.0.0"
 group = "com.appsingularity"
 
 pluginBundle {
-    website = 'https://github.com/vincetreur/android-app-version'
-    vcsUrl = 'https://github.com/vincetreur/android-app-version'
+    website = 'https://github.com/vincetreur/AppVersionPlugin'
+    vcsUrl = 'https://github.com/vincetreur/AppVersionPlugin'
     description = 'Manage version codes/names in your Android app'
     tags = ['android', 'version']
 
     plugins {
         androidAppVersion {
-            id = 'android-app-version'
+            id = 'com.appsingularity.android-app-version'
             displayName = 'Android App Version plugin'
         }
     }

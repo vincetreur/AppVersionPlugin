@@ -15,7 +15,7 @@ class ApplyPluginTest extends BaseTest {
     def 'apply before android application plugin'() {
         given:
         buildFile << /plugins {
-                id 'android-app-version'
+                id 'com.appsingularity.android-app-version'
                 id 'com.android.application'
             }
             appVersion {
@@ -45,7 +45,7 @@ class ApplyPluginTest extends BaseTest {
         given:
         buildFile << /plugins {
                 id 'com.android.application'
-                id 'android-app-version'
+                id 'com.appsingularity.android-app-version'
             }
             appVersion {
                 majorVersion 1
@@ -73,7 +73,7 @@ class ApplyPluginTest extends BaseTest {
     def 'apply without android application plugin'() {
         given:
         buildFile << /plugins {
-                id 'android-app-version'
+                id 'com.appsingularity.android-app-version'
             }
             appVersion {
                 majorVersion 1
@@ -95,7 +95,7 @@ class ApplyPluginTest extends BaseTest {
     def 'apply before android library plugin'() {
         given:
         buildFile << /plugins {
-                id 'android-app-version'
+                id 'com.appsingularity.android-app-version'
                 id 'com.android.library'
             }
             appVersion {
@@ -125,7 +125,7 @@ class ApplyPluginTest extends BaseTest {
         given:
         buildFile << /plugins {
                 id 'com.android.library'
-                id 'android-app-version'
+                id 'com.appsingularity.android-app-version'
             }
             appVersion {
                 majorVersion 1
