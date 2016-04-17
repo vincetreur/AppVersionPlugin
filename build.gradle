@@ -1,0 +1,66 @@
+/*
+ * Copyright (c) 2016 AppSingularity
+ */
+
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+}
+
+plugins {
+    id 'groovy'
+    id 'com.gradle.plugin-publish' version '0.9.3'
+}
+
+targetCompatibility = JavaVersion.VERSION_1_7
+sourceCompatibility = JavaVersion.VERSION_1_7
+
+
+repositories {
+    jcenter()
+}
+
+task createClasspathManifest {
+    def outputDir = file("$buildDir/$name")
+
+    inputs.files sourceSets.main.runtimeClasspath
+    outputs.dir outputDir
+
+    doLast {
+        outputDir.mkdirs()
+        file("$outputDir/plugin-classpath.txt").text = sourceSets.main.runtimeClasspath.join("\n")
+    }
+}
+
+dependencies {
+    compile gradleApi()
+    compile localGroovy()
+    compile 'com.android.tools.build:gradle:2.0.0'
+
+    testCompile gradleTestKit()
+    testCompile('org.spockframework:spock-core:1.0-groovy-2.4') {
+        exclude module: 'groovy-all'
+    }
+    testCompile files(createClasspathManifest)
+}
+
+version = "1.0.0"
+group = "com.appsingularity"
+
+pluginBundle {
+    website = 'https://github.com/vincetreur/android-app-version'
+    vcsUrl = 'https://github.com/vincetreur/android-app-version'
+    description = 'Manage version codes/names in your Android app'
+    tags = ['android', 'version']
+
+    plugins {
+        androidAppVersion {
+            id = 'android-app-version'
+            displayName = 'Android App Version plugin'
+        }
+    }
+}
+
