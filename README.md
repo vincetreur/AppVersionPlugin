@@ -22,7 +22,7 @@ plugins {
 
 appVersion {
    majorVersion 1
-   minorVersion 1
+   minorVersion 2
    patchVersion 3
    isSnapshot false
 }
@@ -64,7 +64,7 @@ The next build file would be equal to specifying `versionCode 10203` and `versio
 // ...
 appVersion {
    majorVersion 1
-   minorVersion 1
+   minorVersion 2
    patchVersion 3
    buildNumber 4
    isSnapshot false
@@ -80,7 +80,7 @@ If you want to have your versions flagged as snapshots, just add `isSnapshot tru
 // ...
 appVersion {
    majorVersion 1
-   minorVersion 1
+   minorVersion 2
    patchVersion 3
    isSnapshot true
 }
@@ -98,9 +98,9 @@ This also works for 2, 3, 4, etc etc.
 // ...
 appVersion {
    majorVersion 1
-   minorVersion 1
+   minorVersion 2
    patchVersion 3
-   releaseCandidate 4
+   releaseCandidate 1
 }
 // ...
 ```
@@ -123,7 +123,7 @@ If you want to disable this, add `renameAPK false` to your build file
 // ...
 appVersion {
    majorVersion 1
-   minorVersion 1
+   minorVersion 2
    patchVersion 3
    renameAPK false
 }
@@ -143,7 +143,7 @@ So you could use `customVersionName "awesome"` to end up with something like `ap
 // ...
 appVersion {
    majorVersion 1
-   minorVersion 1
+   minorVersion 2
    patchVersion 3
    customVersionName 'awesome'
 }
@@ -179,7 +179,7 @@ If you wrote a function that returns a GIT branch name then you could use it as 
 // ...
 appVersion {
    majorVersion 1
-   minorVersion 1
+   minorVersion 2
    patchVersion 3
    isSnapshot false
    customVersionName { '${version}-${functionThatReturnsBranchName()}' }
