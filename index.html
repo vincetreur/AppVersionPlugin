@@ -56,7 +56,7 @@
 
 appVersion {
    majorVersion <span class="pl-c1">1</span>
-   minorVersion <span class="pl-c1">1</span>
+   minorVersion <span class="pl-c1">2</span>
    patchVersion <span class="pl-c1">3</span>
    isSnapshot <span class="pl-c1">false</span>
 }
@@ -102,7 +102,7 @@ In this example your debug APK will be called <code>app-debug-1.2.3.apk</code>.<
 <div class="highlight highlight-source-groovy"><pre><span class="pl-c">// ...</span>
 appVersion {
    majorVersion <span class="pl-c1">1</span>
-   minorVersion <span class="pl-c1">1</span>
+   minorVersion <span class="pl-c1">2</span>
    patchVersion <span class="pl-c1">3</span>
    buildNumber <span class="pl-c1">4</span>
    isSnapshot <span class="pl-c1">false</span>
@@ -117,7 +117,7 @@ appVersion {
 <div class="highlight highlight-source-groovy"><pre><span class="pl-c">// ...</span>
 appVersion {
    majorVersion <span class="pl-c1">1</span>
-   minorVersion <span class="pl-c1">1</span>
+   minorVersion <span class="pl-c1">2</span>
    patchVersion <span class="pl-c1">3</span>
    isSnapshot <span class="pl-c1">true</span>
 }
@@ -136,9 +136,9 @@ This also works for 2, 3, 4, etc etc.</p>
 <div class="highlight highlight-source-groovy"><pre><span class="pl-c">// ...</span>
 appVersion {
    majorVersion <span class="pl-c1">1</span>
-   minorVersion <span class="pl-c1">1</span>
+   minorVersion <span class="pl-c1">2</span>
    patchVersion <span class="pl-c1">3</span>
-   releaseCandidate <span class="pl-c1">4</span>
+   releaseCandidate <span class="pl-c1">1</span>
 }
 <span class="pl-c">// ...</span></pre></div>
 
@@ -166,7 +166,7 @@ Renaming is enabled by default.</p>
 <div class="highlight highlight-source-groovy"><pre><span class="pl-c">// ...</span>
 appVersion {
    majorVersion <span class="pl-c1">1</span>
-   minorVersion <span class="pl-c1">1</span>
+   minorVersion <span class="pl-c1">2</span>
    patchVersion <span class="pl-c1">3</span>
    renameAPK <span class="pl-c1">false</span>
 }
@@ -188,7 +188,7 @@ So you could use <code>customVersionName "awesome"</code> to end up with somethi
 <div class="highlight highlight-source-groovy"><pre><span class="pl-c">// ...</span>
 appVersion {
    majorVersion <span class="pl-c1">1</span>
-   minorVersion <span class="pl-c1">1</span>
+   minorVersion <span class="pl-c1">2</span>
    patchVersion <span class="pl-c1">3</span>
    customVersionName <span class="pl-s"><span class="pl-pds">'</span>awesome<span class="pl-pds">'</span></span>
 }
@@ -233,7 +233,7 @@ appVersion {
 <div class="highlight highlight-source-groovy"><pre><span class="pl-c">// ...</span>
 appVersion {
    majorVersion <span class="pl-c1">1</span>
-   minorVersion <span class="pl-c1">1</span>
+   minorVersion <span class="pl-c1">2</span>
    patchVersion <span class="pl-c1">3</span>
    isSnapshot <span class="pl-c1">false</span>
    customVersionName { <span class="pl-s"><span class="pl-pds">'</span>${version}-${functionThatReturnsBranchName()}<span class="pl-pds">'</span></span> }
