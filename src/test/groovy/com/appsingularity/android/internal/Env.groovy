@@ -21,7 +21,7 @@ public class Env {
             return
         }
         File localProperties = temporaryFolder.newFile(name)
-        localProperties << "sdk.dir=${origProperties.text}"
+        localProperties << origProperties.text
     }
 
 }
