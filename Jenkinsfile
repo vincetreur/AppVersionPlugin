@@ -12,11 +12,11 @@ stage('Build') {
 
 stage('Test') {
 	node {
-	    try {
- 		    gradle 'test'
-	    } finally {
-		    junit 'build/**/TEST*.xml'
-	    }
+//	    try {
+// 		    gradle 'test'
+//	    } finally {
+//		    junit 'build/**/TEST*.xml'
+//	    }
 	}
 }
 
