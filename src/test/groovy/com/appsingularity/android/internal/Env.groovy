@@ -6,22 +6,22 @@ package com.appsingularity.android.internal
 
 import org.junit.rules.TemporaryFolder
 
-import java.util.logging.Level
-import java.util.logging.Logger
-
-import static com.appsingularity.android.AndroidAppVersionConst.TAG
-
 public class Env {
 
     public static void setupSDK(TemporaryFolder temporaryFolder) {
         def name = 'local.properties'
-        File origProperties = new File(name)
-        if (!origProperties.exists()) {
-            Logger.getLogger(TAG).log(Level.SEVERE, "Please add a 'local.properties' to the root of this project")
-            return
-        }
         File localProperties = temporaryFolder.newFile(name)
-        localProperties << origProperties.text
+        File origProperties = new File(name)
+        def dir
+        if (origProperties.exists()) {
+            dir = origProperties.text
+        } else {
+            dir = "sdk.dir=${System.getenv().get('ANDROID_HOME')}"
+        }
+        if (dir == null) {
+            throw new IllegalStateException("Did not find Android SDK location in local.properties or ANDROID_HOME.")
+        }
+        localProperties << dir
     }
 
 }

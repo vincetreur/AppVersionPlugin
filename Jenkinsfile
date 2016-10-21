@@ -1,21 +1,42 @@
-node {
-	ws {
-		stage 'Prepare'
-			checkout scm
-			sh 'echo "sdk.dir="$ANDROID_HOME > local.properties'
+stage('Prepare') {
+	node {
+		checkout scm
+	}
+}
 
-		stage 'Build'
-			gradle 'clean assemble'
+stage('Build') {
+	node {
+	    gradle 'clean classes'
+	}
+}
 
-		stage 'Test'
-			gradle 'test'
+stage('Test') {
+	node {
+	    try {
+ 		    gradle 'test'
+	    } finally {
+		    junit 'build/**/TEST*.xml'
+	    }
+	}
+}
 
-		stage 'Publish'
-			step([$class: 'JUnitResultArchiver', testResults: 'build/test-results/*.xml'])
+stage('Package') {
+	node {
+	    gradle 'jar'
+	}
+}
 
+stage('Archive') {
+	node {
+		archive 'build/libs/*.jar'
 	}
 }
 
 def gradle(def tasks) {
     sh "./gradlew ${tasks}"
+}
+
+def archive(def filename) {
+	archiveArtifacts artifacts: "${filename}",
+		caseSensitive: false, defaultExcludes: false, onlyIfSuccessful: true
 }
